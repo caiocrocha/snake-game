@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Snake</title>
+
+<!-- Snake favicon -->
+<link rel="icon" type="image/svg+xml"
+href="data:image/svg+xml,
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+<text y='.9em' font-size='90'>🐍</text>
+</svg>">
+
 <style>
 body{
   background:#0f0f0f;
@@ -12,35 +21,54 @@ body{
   margin:0;
   font-family:monospace;
   color:white;
+  flex-direction:column;
 }
+
 canvas{
   background:black;
   border:2px solid #444;
+}
+
+#score{
+  margin-bottom:10px;
 }
 </style>
 </head>
 
 <body>
 
-<div>
-<p>Arrow keys to move</p>
+<div id="score">Score: 0</div>
 <canvas id="game" width="400" height="400"></canvas>
-</div>
 
 <script>
+
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
-
 const grid = 20;
 
 let snake = [{x:160,y:160}];
 let dx = grid;
 let dy = 0;
+let score = 0;
 
 let apple = {
   x:320,
   y:320
 };
+
+let count = 0;
+
+function randomGrid(){
+  return Math.floor(Math.random()*20)*grid;
+}
+
+function resetGame(){
+  snake = [{x:160,y:160}];
+  dx = grid;
+  dy = 0;
+  score = 0;
+  document.getElementById("score").innerText = "Score: 0";
+}
 
 function loop(){
   requestAnimationFrame(loop);
@@ -50,59 +78,82 @@ function loop(){
 
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  snake[0].x += dx;
-  snake[0].y += dy;
+  let head = {
+    x: snake[0].x + dx,
+    y: snake[0].y + dy
+  };
 
-  if(snake[0].x < 0) snake[0].x = canvas.width-grid;
-  else if(snake[0].x >= canvas.width) snake[0].x = 0;
+  // wall wrap
+  if(head.x < 0) head.x = canvas.width - grid;
+  if(head.x >= canvas.width) head.x = 0;
+  if(head.y < 0) head.y = canvas.height - grid;
+  if(head.y >= canvas.height) head.y = 0;
 
-  if(snake[0].y < 0) snake[0].y = canvas.height-grid;
-  else if(snake[0].y >= canvas.height) snake[0].y = 0;
+  snake.unshift(head);
 
-  snake.unshift({x:snake[0].x,y:snake[0].y});
+  // apple eaten
+  if(head.x === apple.x && head.y === apple.y){
 
-  if(snake[0].x === apple.x && snake[0].y === apple.y){
-    apple.x = Math.floor(Math.random()*20)*grid;
-    apple.y = Math.floor(Math.random()*20)*grid;
+    score++;
+    document.getElementById("score").innerText = "Score: " + score;
+
+    apple.x = randomGrid();
+    apple.y = randomGrid();
+
   } else {
-    snake.pop();
+
+    snake.pop(); // only remove tail if not eating
+
   }
 
+  // draw apple
   ctx.fillStyle = "red";
   ctx.fillRect(apple.x, apple.y, grid-1, grid-1);
 
+  // draw snake
   ctx.fillStyle = "lime";
 
   snake.forEach(function(cell,index){
+
     ctx.fillRect(cell.x, cell.y, grid-1, grid-1);
 
+    // self collision
     for(let i=index+1;i<snake.length;i++){
       if(cell.x===snake[i].x && cell.y===snake[i].y){
-        snake=[{x:160,y:160}];
-        dx=grid;
-        dy=0;
+        resetGame();
       }
     }
+
   });
+
 }
 
-let count=0;
 requestAnimationFrame(loop);
 
 document.addEventListener("keydown",function(e){
-  if(e.which===37 && dx===0){
-    dx=-grid; dy=0;
+
+  if(e.key === "ArrowLeft" && dx === 0){
+    dx = -grid;
+    dy = 0;
   }
-  else if(e.which===38 && dy===0){
-    dy=-grid; dx=0;
+
+  else if(e.key === "ArrowUp" && dy === 0){
+    dy = -grid;
+    dx = 0;
   }
-  else if(e.which===39 && dx===0){
-    dx=grid; dy=0;
+
+  else if(e.key === "ArrowRight" && dx === 0){
+    dx = grid;
+    dy = 0;
   }
-  else if(e.which===40 && dy===0){
-    dy=grid; dx=0;
+
+  else if(e.key === "ArrowDown" && dy === 0){
+    dy = grid;
+    dx = 0;
   }
+
 });
+
 </script>
 
 </body>
