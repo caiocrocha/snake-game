@@ -1,0 +1,155 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #0f0f0f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 0;                      /* no gap — scoreboard is flush on canvas */
+  font-family: 'Courier New', Courier, monospace;
+  color: #fff;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ─── Scoreboard ──────────────────────────────────────────── */
+
+#scoreboard {
+  width: 400px;                /* same width as canvas */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111;
+  border: 2px solid #333;
+  border-bottom: none;         /* merges visually with the canvas border */
+  padding: 6px 12px;
+}
+
+.score-label {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+#score-value {
+  font-size: 22px;
+  color: #fff;
+  min-width: 3ch;
+  text-align: right;
+}
+
+/* ─── Canvas wrapper ──────────────────────────────────────── */
+
+#canvas-wrapper {
+  position: relative;
+  line-height: 0;
+  margin-bottom: 24px;         /* breathing room before the d-pad */
+}
+
+canvas {
+  display: block;
+  background: #000;
+  border: 2px solid #333;
+  cursor: pointer;
+  touch-action: none;
+}
+
+/* ─── Pause overlay ───────────────────────────────────────── */
+
+#pause-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+#pause-overlay.hidden {
+  display: none;
+}
+
+.pause-icon {
+  display: flex;
+  gap: 12px;
+}
+
+.bar {
+  width: 14px;
+  height: 56px;
+  background: #fff;
+  border-radius: 3px;
+}
+
+/* ─── D-pad ───────────────────────────────────────────────── */
+
+#dpad {
+  display: none;
+  grid-template-columns: repeat(3, 72px);
+  grid-template-rows: repeat(3, 72px);
+}
+
+.dpad-empty {
+  background: transparent;
+}
+
+.dpad-btn,
+.dpad-center {
+  background: #1e1e1e;
+}
+
+.dpad-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border: none;
+  color: #aaa;
+  font-size: 22px;
+  cursor: pointer;
+  touch-action: manipulation;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.07s, color 0.07s;
+}
+
+.dpad-btn:active {
+  background: #2e2e2e;
+  color: #fff;
+}
+
+#btn-up    { border-radius: 10px 10px 0 0; }
+#btn-down  { border-radius: 0 0 10px 10px; }
+#btn-left  { border-radius: 10px 0 0 10px; }
+#btn-right { border-radius: 0 10px 10px 0; }
+
+.dpad-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dpad-center::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #333;
+}
+
+/* ─── Show D-pad only on touch/mobile ─────────────────────── */
+
+@media (pointer: coarse) {
+  #dpad {
+    display: grid;
+  }
+}

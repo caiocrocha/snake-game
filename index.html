@@ -1,160 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Snake</title>
-
-<!-- Snake favicon -->
-<link rel="icon" type="image/svg+xml"
-href="data:image/svg+xml,
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-<text y='.9em' font-size='90'>🐍</text>
-</svg>">
-
-<style>
-body{
-  background:#0f0f0f;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  margin:0;
-  font-family:monospace;
-  color:white;
-  flex-direction:column;
-}
-
-canvas{
-  background:black;
-  border:2px solid #444;
-}
-
-#score{
-  margin-bottom:10px;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div id="score">Score: 0</div>
-<canvas id="game" width="400" height="400"></canvas>
+  <div id="scoreboard">
+    <span class="score-label">SCORE</span>
+    <span id="score-value">0</span>
+  </div>
 
-<script>
+  <div id="canvas-wrapper">
+    <canvas id="game" width="400" height="400"></canvas>
+    <div id="pause-overlay" class="hidden">
+      <div class="pause-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </div>
+  </div>
 
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
-const grid = 20;
+  <!-- D-pad: only visible on touch devices (controlled via CSS media query) -->
+  <div id="dpad" role="group" aria-label="Directional controls">
+    <div class="dpad-empty"></div>
+    <button class="dpad-btn" id="btn-up"    data-dir="ArrowUp"    aria-label="Up">▲</button>
+    <div class="dpad-empty"></div>
+    <button class="dpad-btn" id="btn-left"  data-dir="ArrowLeft"  aria-label="Left">◀</button>
+    <div class="dpad-center"></div>
+    <button class="dpad-btn" id="btn-right" data-dir="ArrowRight" aria-label="Right">▶</button>
+    <div class="dpad-empty"></div>
+    <button class="dpad-btn" id="btn-down"  data-dir="ArrowDown"  aria-label="Down">▼</button>
+    <div class="dpad-empty"></div>
+  </div>
 
-let snake = [{x:160,y:160}];
-let dx = grid;
-let dy = 0;
-let score = 0;
-
-let apple = {
-  x:320,
-  y:320
-};
-
-let count = 0;
-
-function randomGrid(){
-  return Math.floor(Math.random()*20)*grid;
-}
-
-function resetGame(){
-  snake = [{x:160,y:160}];
-  dx = grid;
-  dy = 0;
-  score = 0;
-  document.getElementById("score").innerText = "Score: 0";
-}
-
-function loop(){
-  requestAnimationFrame(loop);
-
-  if(++count < 6) return;
-  count = 0;
-
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  let head = {
-    x: snake[0].x + dx,
-    y: snake[0].y + dy
-  };
-
-  // wall wrap
-  if(head.x < 0) head.x = canvas.width - grid;
-  if(head.x >= canvas.width) head.x = 0;
-  if(head.y < 0) head.y = canvas.height - grid;
-  if(head.y >= canvas.height) head.y = 0;
-
-  snake.unshift(head);
-
-  // apple eaten
-  if(head.x === apple.x && head.y === apple.y){
-
-    score++;
-    document.getElementById("score").innerText = "Score: " + score;
-
-    apple.x = randomGrid();
-    apple.y = randomGrid();
-
-  } else {
-
-    snake.pop(); // only remove tail if not eating
-
-  }
-
-  // draw apple
-  ctx.fillStyle = "red";
-  ctx.fillRect(apple.x, apple.y, grid-1, grid-1);
-
-  // draw snake
-  ctx.fillStyle = "lime";
-
-  snake.forEach(function(cell,index){
-
-    ctx.fillRect(cell.x, cell.y, grid-1, grid-1);
-
-    // self collision
-    for(let i=index+1;i<snake.length;i++){
-      if(cell.x===snake[i].x && cell.y===snake[i].y){
-        resetGame();
-      }
-    }
-
-  });
-
-}
-
-requestAnimationFrame(loop);
-
-document.addEventListener("keydown",function(e){
-
-  if(e.key === "ArrowLeft" && dx === 0){
-    dx = -grid;
-    dy = 0;
-  }
-
-  else if(e.key === "ArrowUp" && dy === 0){
-    dy = -grid;
-    dx = 0;
-  }
-
-  else if(e.key === "ArrowRight" && dx === 0){
-    dx = grid;
-    dy = 0;
-  }
-
-  else if(e.key === "ArrowDown" && dy === 0){
-    dy = grid;
-    dx = 0;
-  }
-
-});
-
-</script>
-
+  <script src="game.js"></script>
 </body>
 </html>
