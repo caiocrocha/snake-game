@@ -4,7 +4,7 @@
     "name": "NLPPlayground",
     "displayName": "NLP Playground",
     "tag": "NLP",
-    "description": "A web app that classifies writing levels in Portuguese and performs interactive text processing tasks \u2014 built on classical NLP and ML techniques, deployed with Streamlit.",
+    "description": "A web app that classifies writing levels in Portuguese and performs interactive text processing tasks. Built on classical NLP and ML techniques, deployed with Streamlit.",
     "repo": "NLPPlayground",
     "keywords": [
       "nlp",
@@ -30,7 +30,7 @@
     "name": "Brazilian_Portuguese_Quick_APT",
     "displayName": "Brazilian Portuguese APT",
     "tag": "ASR",
-    "description": "Automatic phonetic transcription for Brazilian Portuguese \u2014 developed as an undergraduate thesis using the CORAA ASR corpus and a G2P converter to build a phonetics dataset for ASR model training.",
+    "description": "Automatic phonetic transcription for Brazilian Portuguese: developed as an undergraduate thesis using the CORAA ASR corpus and a G2P converter to build a phonetics dataset for ASR model training.",
     "repo": "Brazilian_Portuguese_Quick_APT",
     "keywords": [
       "speech recognition",
@@ -57,7 +57,7 @@
     "name": "SarsCov2DrugHunter",
     "displayName": "SARS-CoV-2 Drug Hunter",
     "tag": "BIO",
-    "description": "A Streamlit app that combines molecular descriptors, bioactivity data, and ML to identify drug candidates against the SARS-CoV-2 main protease \u2014 built for bioinformatics and ML researchers.",
+    "description": "A Streamlit app that combines molecular descriptors, bioactivity data, and ML to identify drug candidates against the SARS-CoV-2 main protease. Built for bioinformatics and ML researchers.",
     "repo": "SarsCov2DrugHunter",
     "keywords": [
       "drug discovery",
@@ -112,7 +112,7 @@
     "name": "arxhive_rag",
     "displayName": "ArXHive RAG",
     "tag": "RAG",
-    "description": "A lightweight RAG-based semantic search app for ArXiv \u2014 ask a research question and get a grounded AI answer backed by the most relevant papers, powered by sentence embeddings, Chroma vector search, and a DeepSeek LLM.",
+    "description": "A lightweight RAG-based semantic search app for ArXiv: ask a research question and get a grounded AI answer backed by the most relevant papers, powered by sentence embeddings, Chroma vector search, and a DeepSeek LLM.",
     "repo": "arxhive_rag",
     "keywords": [
       "rag",

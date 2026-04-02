@@ -23,10 +23,8 @@ function weightedPick() {
 
 // getNextTag is exported so renderer.js can label the food item
 export function getNextTag() {
-  for (const p of state.projects) {
-    if (state.score < p.scoreThreshold) return p.tag;
-  }
-  return state.projects.at(-1)?.tag ?? "";
+  if (!state.projects.length) return "";
+  return state.projects[state.score % state.projects.length].tag;
 }
 
 export function show() {
