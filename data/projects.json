@@ -1,0 +1,166 @@
+[
+  {
+    "id": 0,
+    "name": "NLPPlayground",
+    "displayName": "NLP Playground",
+    "tag": "NLP",
+    "description": "A web app that classifies writing levels in Portuguese and performs interactive text processing tasks \u2014 built on classical NLP and ML techniques, deployed with Streamlit.",
+    "repo": "NLPPlayground",
+    "keywords": [
+      "nlp",
+      "natural language processing",
+      "text classification",
+      "portuguese",
+      "streamlit",
+      "writing",
+      "classifier",
+      "sklearn",
+      "text processing",
+      "machine learning",
+      "portuguese nlp"
+    ],
+    "theme": {
+      "snake": "#39ff14",
+      "food": "#ff4444",
+      "accent": "#39ff14"
+    }
+  },
+  {
+    "id": 1,
+    "name": "Brazilian_Portuguese_Quick_APT",
+    "displayName": "Brazilian Portuguese APT",
+    "tag": "ASR",
+    "description": "Automatic phonetic transcription for Brazilian Portuguese \u2014 developed as an undergraduate thesis using the CORAA ASR corpus and a G2P converter to build a phonetics dataset for ASR model training.",
+    "repo": "Brazilian_Portuguese_Quick_APT",
+    "keywords": [
+      "speech recognition",
+      "asr",
+      "phonetics",
+      "g2p",
+      "phonetic transcription",
+      "audio",
+      "speech",
+      "transcription",
+      "deep learning",
+      "portuguese",
+      "speech to text",
+      "corpus"
+    ],
+    "theme": {
+      "snake": "#ffb300",
+      "food": "#ff4444",
+      "accent": "#ffb300"
+    }
+  },
+  {
+    "id": 2,
+    "name": "SarsCov2DrugHunter",
+    "displayName": "SARS-CoV-2 Drug Hunter",
+    "tag": "BIO",
+    "description": "A Streamlit app that combines molecular descriptors, bioactivity data, and ML to identify drug candidates against the SARS-CoV-2 main protease \u2014 built for bioinformatics and ML researchers.",
+    "repo": "SarsCov2DrugHunter",
+    "keywords": [
+      "drug discovery",
+      "machine learning",
+      "bioinformatics",
+      "molecular",
+      "covid",
+      "sars",
+      "rdkit",
+      "protease",
+      "classification",
+      "cheminformatics",
+      "bioactivity",
+      "ml"
+    ],
+    "theme": {
+      "snake": "#00e5ff",
+      "food": "#ff4444",
+      "accent": "#00e5ff"
+    }
+  },
+  {
+    "id": 3,
+    "name": "ai_job_market_dashboard",
+    "displayName": "AI Job Market Dashboard",
+    "tag": "LLM",
+    "description": "An LLM-powered scraper and analytics dashboard that collects AI job postings from multiple sources, normalises roles and skills, and visualises market trends interactively with Plotly and Streamlit.",
+    "repo": "ai_job_market_dashboard",
+    "keywords": [
+      "llm",
+      "job market",
+      "web scraping",
+      "analytics",
+      "dashboard",
+      "streamlit",
+      "playwright",
+      "hugging face",
+      "pandas",
+      "plotly",
+      "skill trends",
+      "data engineering",
+      "large language model"
+    ],
+    "theme": {
+      "snake": "#ff7043",
+      "food": "#ffee33",
+      "accent": "#ff7043"
+    }
+  },
+  {
+    "id": 4,
+    "name": "arxhive_rag",
+    "displayName": "ArXHive RAG",
+    "tag": "RAG",
+    "description": "A lightweight RAG-based semantic search app for ArXiv \u2014 ask a research question and get a grounded AI answer backed by the most relevant papers, powered by sentence embeddings, Chroma vector search, and a DeepSeek LLM.",
+    "repo": "arxhive_rag",
+    "keywords": [
+      "rag",
+      "retrieval augmented generation",
+      "semantic search",
+      "arxiv",
+      "embeddings",
+      "vector search",
+      "chroma",
+      "llm",
+      "deepseek",
+      "sentence transformers",
+      "information retrieval",
+      "qa",
+      "research",
+      "papers"
+    ],
+    "theme": {
+      "snake": "#ce93d8",
+      "food": "#ff4444",
+      "accent": "#ce93d8"
+    }
+  },
+  {
+    "id": 5,
+    "name": "SkillsRadar",
+    "displayName": "Skills Radar",
+    "tag": "WEB",
+    "description": "An intelligent pipeline that scrapes job postings from URLs using LLMs with smart caching and deduplication, then visualises skill trends and requirements across tech roles in an interactive dashboard.",
+    "repo": "SkillsRadar",
+    "keywords": [
+      "llm",
+      "job market",
+      "web scraping",
+      "skill trends",
+      "langgraph",
+      "fastapi",
+      "playwright",
+      "javascript",
+      "python",
+      "dashboard",
+      "deduplication",
+      "job postings"
+    ],
+    "theme": {
+      "snake": "#40c4ff",
+      "food": "#ff4444",
+      "accent": "#40c4ff"
+    }
+  }
+]

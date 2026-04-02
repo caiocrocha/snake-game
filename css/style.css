@@ -1,0 +1,401 @@
+/* ── CSS custom properties (updated per-run by game.js) ─── */
+:root {
+  --accent:  #39ff14;
+  --snake:   #39ff14;
+  --food:    #ff4444;
+  --border:  #333;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #0f0f0f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: 'Courier New', Courier, monospace;
+  color: #fff;
+  user-select: none;
+  -webkit-user-select: none;
+  overscroll-behavior: none;
+  padding: 16px 0 24px;
+  gap: 0;
+}
+
+/* ── Scoreboard ──────────────────────────────────────────── */
+
+#scoreboard {
+  width: min(400px, calc(100vw - 32px));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111;
+  border: 2px solid var(--border);
+  border-bottom: none;
+  padding: 8px 14px;
+  transition: border-color 0.6s ease;
+}
+
+.score-label {
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: #ccc;
+  text-transform: uppercase;
+}
+
+#score-value {
+  font-size: 28px;
+  color: var(--accent);
+  min-width: 3ch;
+  text-align: right;
+  transition: color 0.6s ease;
+}
+
+/* ── NLP pipeline bar ────────────────────────────────────── */
+
+#pipeline-bar {
+  width: min(400px, calc(100vw - 32px));
+  background: #0a0a0a;
+  border: 2px solid var(--border);
+  border-bottom: none;
+  padding: 6px 12px;
+  overflow: hidden;
+  transition: border-color 0.6s ease;
+}
+
+#pipeline-inner {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: transform 0.5s ease;
+}
+
+.stage {
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #ccc;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  transition: color 0.4s ease;
+}
+
+.stage.active {
+  color: #eee;
+}
+
+.stage.current {
+  color: var(--accent);
+  font-weight: bold;
+  transition: color 0.4s ease;
+}
+
+.sep {
+  font-size: 13px;
+  color: #999;
+  flex: 0 0 auto;
+}
+
+/* ── Canvas wrapper ──────────────────────────────────────── */
+
+#canvas-wrapper {
+  position: relative;
+  line-height: 0;
+  width: min(400px, calc(100vw - 32px));
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #000;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  touch-action: none;
+  transition: border-color 0.6s ease;
+}
+
+/* ── Pause overlay ───────────────────────────────────────── */
+
+#pause-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+#pause-overlay.hidden { display: none; }
+
+.pause-icon { display: flex; gap: 12px; }
+
+.bar {
+  width: 14px;
+  height: 56px;
+  background: #fff;
+  border-radius: 3px;
+}
+
+/* ── Project panel (post-game) ───────────────────────────── */
+
+#project-panel {
+  width: min(400px, calc(100vw - 32px));
+  background: #0d0d0d;
+  border: 2px solid var(--border);
+  border-top: none;
+  padding: 16px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: border-color 0.6s ease;
+}
+
+#project-panel.hidden { display: none; }
+
+/* Project card */
+#project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#project-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#project-tag {
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #000;
+  background: var(--accent);
+  padding: 2px 7px;
+  border-radius: 3px;
+  transition: background 0.6s ease;
+  flex-shrink: 0;
+}
+
+#project-name {
+  font-size: 15px;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+#project-desc {
+  font-size: 14px;
+  color: #ddd;
+  line-height: 1.6;
+}
+
+#project-link {
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: color 0.6s ease;
+}
+
+#project-link:hover { text-decoration: underline; }
+
+/* Divider */
+#project-panel hr {
+  border: none;
+  border-top: 1px solid #1f1f1f;
+}
+
+/* Chatbot section */
+#chatbot {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chatbot-label {
+  font-size: 13px;
+  color: #aaa;
+  letter-spacing: 0.5px;
+}
+
+#keyword-row {
+  display: flex;
+  gap: 6px;
+}
+
+#keyword-input {
+  flex: 1;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 3px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  padding: 6px 10px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+#keyword-input::placeholder { color: #3a3a3a; }
+#keyword-input:focus { border-color: var(--accent); }
+
+#keyword-btn {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 3px;
+  color: var(--accent);
+  font-size: 16px;
+  padding: 0 12px;
+  cursor: pointer;
+  transition: background 0.1s, color 0.6s ease;
+  font-family: inherit;
+}
+
+#keyword-btn:hover { background: #222; }
+
+/* Keyword results */
+#keyword-results {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.result-item {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 3px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.result-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.result-tag {
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  color: #000;
+  background: var(--accent);
+  padding: 1px 5px;
+  border-radius: 2px;
+  transition: background 0.6s ease;
+}
+
+.result-name {
+  font-size: 12px;
+  font-weight: bold;
+  color: #ccc;
+}
+
+.result-desc {
+  font-size: 11px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.result-link {
+  font-size: 11px;
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.6s ease;
+}
+
+.result-link:hover { text-decoration: underline; }
+
+.no-match {
+  font-size: 12px;
+  color: #444;
+}
+
+.chatbot-alt {
+  font-size: 13px;
+  color: #888;
+  letter-spacing: 0.3px;
+}
+
+/* Play again */
+#play-again {
+  background: transparent;
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  color: var(--accent);
+  font-family: inherit;
+  font-size: 13px;
+  letter-spacing: 2px;
+  padding: 8px;
+  cursor: pointer;
+  transition: background 0.1s, color 0.6s ease, border-color 0.6s ease;
+}
+
+#play-again:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ── D-pad ───────────────────────────────────────────────── */
+
+#dpad {
+  display: none;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-top: 24px;
+}
+
+/* Thin ring passing through each button's centre */
+#dpad::before {
+  content: '';
+  position: absolute;
+  inset: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+.dpad-btn {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #1e1e1e;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 20px;
+  cursor: pointer;
+  touch-action: manipulation;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.07s, color 0.07s;
+}
+
+.dpad-btn:active {
+  background: #2e2e2e;
+  color: var(--accent);
+}
+
+#btn-up    { top: 0;    left: 50%; transform: translateX(-50%); }
+#btn-down  { bottom: 0; left: 50%; transform: translateX(-50%); }
+#btn-left  { left: 0;   top:  50%; transform: translateY(-50%); }
+#btn-right { right: 0;  top:  50%; transform: translateY(-50%); }
+
+@media (pointer: coarse) {
+  #dpad:not(.hidden) { display: block; }
+}

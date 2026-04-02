@@ -1,0 +1,34 @@
+{
+  "skip": [
+    "pdbbind-coreset-2013",
+    "malariagen-data-python",
+    "motion-diffusion-model",
+    "FastGlobalRegistration3D",
+    "TumorCellNecrosis",
+    "Optimal_Transport_Fairness"
+  ],
+  "themes": {
+    "NLPPlayground":                 { "snake": "#39ff14", "food": "#ff4444", "accent": "#39ff14" },
+    "Brazilian_Portuguese_Quick_APT":{ "snake": "#ffb300", "food": "#ff4444", "accent": "#ffb300" },
+    "SarsCov2DrugHunter":            { "snake": "#00e5ff", "food": "#ff4444", "accent": "#00e5ff" },
+    "ai_job_market_dashboard":       { "snake": "#ff7043", "food": "#ffee33", "accent": "#ff7043" },
+    "arxhive_rag":                   { "snake": "#ce93d8", "food": "#ff4444", "accent": "#ce93d8" },
+    "SkillsRadar":                   { "snake": "#40c4ff", "food": "#ff4444", "accent": "#40c4ff" }
+  },
+  "tags": {
+    "NLPPlayground":                 "NLP",
+    "Brazilian_Portuguese_Quick_APT":"ASR",
+    "SarsCov2DrugHunter":            "BIO",
+    "ai_job_market_dashboard":       "LLM",
+    "arxhive_rag":                   "RAG",
+    "SkillsRadar":                   "SKL"
+  },
+  "displayNames": {
+    "NLPPlayground":                 "NLP Playground",
+    "Brazilian_Portuguese_Quick_APT":"Brazilian Portuguese APT",
+    "SarsCov2DrugHunter":            "SARS-CoV-2 Drug Hunter",
+    "ai_job_market_dashboard":       "AI Job Market Dashboard",
+    "arxhive_rag":                   "ArXHive RAG",
+    "SkillsRadar":                   "Skills Radar"
+  }
+}

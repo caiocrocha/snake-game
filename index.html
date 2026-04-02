@@ -3,17 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Snake</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
-  <link rel="stylesheet" href="style.css">
+  <title>Snake Game — Caio Rocha</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+  <!-- ── Scoreboard ───────────────────────────── -->
   <div id="scoreboard">
     <span class="score-label">SCORE</span>
     <span id="score-value">0</span>
   </div>
 
+  <!-- ── NLP pipeline stage indicator ─────────── -->
+  <div id="pipeline-bar">
+    <div id="pipeline-inner">
+      <span class="stage active" data-i="0">TEXT</span>
+      <span class="sep">›</span>
+      <span class="stage" data-i="1">TOKENS</span>
+      <span class="sep">›</span>
+      <span class="stage" data-i="2">VECTORS</span>
+      <span class="sep">›</span>
+      <span class="stage" data-i="3">CONTEXT</span>
+      <span class="sep">›</span>
+      <span class="stage" data-i="4">THINK</span>
+      <span class="sep">›</span>
+      <span class="stage" data-i="5">PROBS</span>
+      <span class="sep">›</span>
+      <span class="stage" data-i="6">SAMPLE</span>
+      <span class="sep">›</span>
+      <span class="stage" data-i="7">NEXT</span>
+    </div>
+  </div>
+
+  <!-- ── Game canvas ───────────────────────────── -->
   <div id="canvas-wrapper">
     <canvas id="game" width="400" height="400"></canvas>
     <div id="pause-overlay" class="hidden">
@@ -24,7 +47,35 @@
     </div>
   </div>
 
-  <!-- D-pad: only visible on touch devices (controlled via CSS media query) -->
+  <!-- ── Post-game project panel ───────────────── -->
+  <div id="project-panel" class="hidden">
+
+    <div id="project-card">
+      <div id="project-header">
+        <span id="project-tag"></span>
+        <span id="project-name"></span>
+      </div>
+      <p id="project-desc"></p>
+      <a id="project-link" href="#" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+    </div>
+
+    <div id="chatbot">
+      <p class="chatbot-label">Discover new projects by inputting keywords below</p>
+      <div id="keyword-row">
+        <input id="keyword-input" type="text"
+               placeholder="RAG, LangGraph, NLP, LLM, ASR…"
+               autocomplete="off" spellcheck="false">
+        <button id="keyword-btn">→</button>
+      </div>
+      <div id="keyword-results"></div>
+      <p class="chatbot-alt">Or continue playing to unlock new projects</p>
+    </div>
+
+    <button id="play-again">▶ PLAY AGAIN</button>
+
+  </div>
+
+  <!-- ── Mobile D-pad ──────────────────────────── -->
   <div id="dpad" role="group" aria-label="Directional controls">
     <button class="dpad-btn" id="btn-up"    data-dir="ArrowUp"    aria-label="Up">▲</button>
     <button class="dpad-btn" id="btn-left"  data-dir="ArrowLeft"  aria-label="Left">◀</button>
@@ -32,6 +83,7 @@
     <button class="dpad-btn" id="btn-down"  data-dir="ArrowDown"  aria-label="Down">▼</button>
   </div>
 
-  <script src="game.js"></script>
+  <script type="module" src="js/game.js"></script>
+
 </body>
 </html>
