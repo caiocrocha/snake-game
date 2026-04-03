@@ -1,8 +1,8 @@
 // js/config.js — compile-time constants
 
-export const GRID     = 25;   // px per grid cell
-export const SPEED    = 8;    // frames to skip between moves (higher = slower)
-export const ANIM_LEN = 50;   // death-animation frame count
+export const GRID             = 30;   // px per grid cell
+export const MOVE_INTERVAL_MS = 140;  // ms between snake moves
+export const ANIM_LEN         = 50;   // death-animation frame count
 
 export const FOOD_COLOR = "#a855f7";
 

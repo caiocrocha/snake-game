@@ -1,8 +1,10 @@
 # Snake Game for Interactive Portfolio
 
-An interactive GitHub profile intro built as a Snake game. Eat apples to unlock projects, discover them by keyword, or just keep playing.
+I built this Snake game as an interactive GitHub profile intro using Vanilla JS/HTML/CSS. Eat apples to unlock projects, discover them by keyword, or just keep playing.
 
 **Play live:** https://caiocrocha.github.io/snake-game
+
+The project also includes a GitHub projects scraper that uses Python, requests, and Named Entitity Recognition with GLiNER + spacy to extract keywords, skills, and tech stack from the project descriptions.
 
 ## Local Setup
 

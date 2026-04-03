@@ -1,17 +1,17 @@
 // engine/loop.js — game lifecycle (reset, death) and the RAF main loop
 
-import { GRID, SPEED, ENCOURAGEMENTS, UNLOCK_MSGS } from "../config.js";
+import { GRID, MOVE_INTERVAL_MS, ENCOURAGEMENTS, UNLOCK_MSGS } from "../config.js";
 import { state }          from "../state.js";
 import { update as updatePipelineBar } from "../ui/pipelineBar.js";
 import { show as showPanel, hide as hidePanel } from "../ui/projectPanel.js";
-import { canvas, ctx, drawApple, drawSnake, drawDeathAnimation } from "./renderer.js";
+import { canvas, ctx, drawApple, drawSnake, drawDeathAnimation, drawWaitingOverlay } from "./renderer.js";
 
 const scoreEl = document.getElementById("score-value");
 const pauseEl = document.getElementById("pause-overlay");
 const dpadEl  = document.getElementById("dpad");
 
 const pick = arr => arr[Math.floor(Math.random() * arr.length)];
-const rnd  = ()  => Math.floor(Math.random() * (canvas.width / GRID)) * GRID;
+const rnd  = ()  => Math.floor(Math.random() * Math.floor(canvas.width / GRID)) * GRID;
 
 function setScore(v) {
   state.score = v;
@@ -20,7 +20,7 @@ function setScore(v) {
 }
 
 export function setPaused(val) {
-  if (state.gameOver || state.animating) return;
+  if (state.gameOver || state.animating || state.waiting) return;
   state.paused = val;
   pauseEl.classList.toggle("hidden", !val);
 }
@@ -33,14 +33,15 @@ export function reset() {
   if (dpadEl) dpadEl.classList.remove("hidden");
 
   Object.assign(state, {
-    snake: [{ x: 150, y: 150 }], dx: GRID, dy: 0, tick: 0,
+    snake: [{ x: 150, y: 150 }], dx: GRID, dy: 0,
+    waiting: true, waitStart: performance.now(), lastMoveTime: 0,
     apple: { x: 300, y: 300 },
-    gameOver: false, animating: false, animDone: false, animFrame: 0,
+    gameOver: false, paused: false, animating: false, animDone: false, animFrame: 0,
     lastPipelineStage: -1,
   });
+  pauseEl.classList.add("hidden"); // clear any lingering pause overlay
 
   setScore(0);
-  setPaused(false);
   updatePipelineBar();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   _startLoop();
@@ -55,7 +56,8 @@ function _triggerDeath() {
   pauseEl.classList.add("hidden");
 }
 
-function _loop() {
+function _loop(timestamp) {
+  // ── Death animation phase ────────────────────────────────────
   if (state.animating) {
     state.rafId = requestAnimationFrame(_loop);
     drawDeathAnimation();
@@ -66,15 +68,45 @@ function _loop() {
     return;
   }
 
-  if (state.gameOver)                  { state.rafId = null; return; }
-  if (state.paused || ++state.tick < SPEED) { state.rafId = requestAnimationFrame(_loop); return; }
-  state.tick = 0;
+  if (state.gameOver) { state.rafId = null; return; }
 
+  // ── Waiting / 3-second countdown ────────────────────────────
+  // Auto-starts when 3 000 ms elapse; the player can skip by pressing a direction.
+  if (state.waiting) {
+    const elapsed = timestamp - state.waitStart;
+    if (elapsed >= 3000) {
+      // Countdown finished — start moving in the default direction (right)
+      state.waiting      = false;
+      state.lastMoveTime = timestamp;
+      // fall through to the normal game-tick code below
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawApple();
+      drawSnake();
+      drawWaitingOverlay(timestamp);
+      state.rafId = requestAnimationFrame(_loop);
+      return;
+    }
+  }
+
+  if (state.paused) { state.rafId = requestAnimationFrame(_loop); return; }
+
+  // ── Timestamp-based movement (device/refresh-rate independent) ─
+  // lastMoveTime is set to performance.now() the moment the first key is pressed.
+  if (timestamp - state.lastMoveTime < MOVE_INTERVAL_MS) {
+    state.rafId = requestAnimationFrame(_loop);
+    return;
+  }
+  state.lastMoveTime = timestamp;
+
+  // ── Game tick ────────────────────────────────────────────────
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   const head = { x: state.snake[0].x + state.dx, y: state.snake[0].y + state.dy };
 
-  if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) {
+  // Check the trailing edge of the cell, not just its top-left corner.
+  // This is correct for any GRID size, including ones that don't divide canvas.width evenly.
+  if (head.x < 0 || head.x + GRID > canvas.width || head.y < 0 || head.y + GRID > canvas.height) {
     _triggerDeath(); state.rafId = requestAnimationFrame(_loop); return;
   }
 

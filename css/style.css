@@ -31,7 +31,7 @@ body {
 /* ── Scoreboard ──────────────────────────────────────────── */
 
 #scoreboard {
-  width: min(400px, calc(100vw - 32px));
+  width: min(390px, calc(100vw - 32px));
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -60,7 +60,7 @@ body {
 /* ── NLP pipeline bar ────────────────────────────────────── */
 
 #pipeline-bar {
-  width: min(400px, calc(100vw - 32px));
+  width: min(390px, calc(100vw - 32px));
   background: #0a0a0a;
   border: 2px solid var(--border);
   border-bottom: none;
@@ -75,8 +75,12 @@ body {
   align-items: center;
   gap: 6px;
   white-space: nowrap;
-  transition: transform 0.5s ease;
+  transition: transform 0.5s ease;   /* default smooth scroll */
 }
+
+/* JS adds these classes to override the default transition duration */
+#pipeline-inner.pipeline-fast    { transition: transform 0.2s ease; }
+#pipeline-inner.pipeline-instant { transition: none; }
 
 .stage {
   font-size: 13px;
@@ -108,7 +112,7 @@ body {
 #canvas-wrapper {
   position: relative;
   line-height: 0;
-  width: min(400px, calc(100vw - 32px));
+  width: min(390px, calc(100vw - 32px));
 }
 
 canvas {
@@ -126,7 +130,7 @@ canvas {
 
 #pause-overlay {
   position: absolute;
-  inset: 0;
+  inset: 2px;           /* leave the 2 px canvas border fully visible */
   background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
@@ -134,21 +138,38 @@ canvas {
   pointer-events: none;
 }
 
-#pause-overlay.hidden { display: none; }
+/* ── Global visibility utility ───────────────────────────── */
+.hidden { display: none !important; }
+
+.pause-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
 
 .pause-icon { display: flex; gap: 12px; }
 
 .bar {
   width: 14px;
   height: 56px;
-  background: #fff;
+  background: var(--accent);
   border-radius: 3px;
+}
+
+.pause-hint {
+  /* Mirrors the canvas waiting-screen hint exactly:
+     ctx.font = "13px monospace", ctx.fillStyle = "#aaa", ctx.globalAlpha = 0.40 */
+  font-size: 13px;
+  color: #aaa;
+  opacity: 0.40;
+  text-align: center;
 }
 
 /* ── Project panel (post-game) ───────────────────────────── */
 
 #project-panel {
-  width: min(400px, calc(100vw - 32px));
+  width: min(390px, calc(100vw - 32px));
   background: #0d0d0d;
   border: 2px solid var(--border);
   border-top: none;
@@ -158,8 +179,6 @@ canvas {
   gap: 14px;
   transition: border-color 0.6s ease;
 }
-
-#project-panel.hidden { display: none; }
 
 /* Project card */
 #project-card {

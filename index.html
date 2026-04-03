@@ -38,11 +38,14 @@
 
   <!-- ── Game canvas ───────────────────────────── -->
   <div id="canvas-wrapper">
-    <canvas id="game" width="400" height="400"></canvas>
+    <canvas id="game" width="390" height="390"></canvas>
     <div id="pause-overlay" class="hidden">
-      <div class="pause-icon">
-        <div class="bar"></div>
-        <div class="bar"></div>
+      <div class="pause-content">
+        <div class="pause-icon">
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+        <p class="pause-hint">SPACE or click canvas to resume</p>
       </div>
     </div>
   </div>
@@ -67,7 +70,10 @@
                autocomplete="off" spellcheck="false">
         <button id="keyword-btn">→</button>
       </div>
-      <div id="keyword-results"></div>
+      <div id="keyword-results">
+        <!-- static no-match message; shown/hidden by chatbot.js via .hidden class -->
+        <p id="no-match-msg" class="no-match hidden">No match — try "RAG", "NLP", "LLM", "ASR" or "bioinformatics".</p>
+      </div>
       <p class="chatbot-alt">Or continue playing to unlock new projects</p>
     </div>
 
@@ -82,6 +88,18 @@
     <button class="dpad-btn" id="btn-right" data-dir="ArrowRight" aria-label="Right">▶</button>
     <button class="dpad-btn" id="btn-down"  data-dir="ArrowDown"  aria-label="Down">▼</button>
   </div>
+
+  <!-- ── Chatbot result-item template ────────────────────── -->
+  <template id="result-item-tpl">
+    <div class="result-item">
+      <div class="result-item-header">
+        <span class="result-tag"></span>
+        <span class="result-name"></span>
+      </div>
+      <p class="result-desc"></p>
+      <a class="result-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+    </div>
+  </template>
 
   <script type="module" src="js/game.js"></script>
 

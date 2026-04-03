@@ -7,10 +7,31 @@ import { canvas }                    from "./renderer.js";
 
 function changeDirection(key) {
   if (state.paused || state.gameOver || state.animating) return;
-  if      (key === "ArrowLeft"  && state.dx === 0) { state.dx = -GRID; state.dy =  0; }
-  else if (key === "ArrowRight" && state.dx === 0) { state.dx =  GRID; state.dy =  0; }
-  else if (key === "ArrowUp"    && state.dy === 0) { state.dy = -GRID; state.dx =  0; }
-  else if (key === "ArrowDown"  && state.dy === 0) { state.dy =  GRID; state.dx =  0; }
+
+  const isLeft  = key === "ArrowLeft";
+  const isRight = key === "ArrowRight";
+  const isUp    = key === "ArrowUp";
+  const isDown  = key === "ArrowDown";
+
+  if (!isLeft && !isRight && !isUp && !isDown) return;
+
+  if (state.waiting) {
+    // First input: unlock movement in whichever direction the user chose.
+    // All four directions are valid here — no reversal possible yet.
+    state.waiting      = false;
+    state.lastMoveTime = performance.now();
+    if (isLeft)  { state.dx = -GRID; state.dy =  0; }
+    if (isRight) { state.dx =  GRID; state.dy =  0; }
+    if (isUp)    { state.dx =  0;    state.dy = -GRID; }
+    if (isDown)  { state.dx =  0;    state.dy =  GRID; }
+    return;
+  }
+
+  // Normal in-game direction change (no 180° reversal allowed).
+  if      (isLeft  && state.dx === 0) { state.dx = -GRID; state.dy =  0; }
+  else if (isRight && state.dx === 0) { state.dx =  GRID; state.dy =  0; }
+  else if (isUp    && state.dy === 0) { state.dy = -GRID; state.dx =  0; }
+  else if (isDown  && state.dy === 0) { state.dy =  GRID; state.dx =  0; }
 }
 
 export function init() {

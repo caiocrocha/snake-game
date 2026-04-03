@@ -34,13 +34,16 @@ export function show() {
   nameEl.textContent = p.displayName;
   descEl.textContent = p.description;
   const url = projectUrl(p);
-  linkEl.href          = url;
-  linkEl.style.display = url ? "" : "none";
+  linkEl.href = url;
+  linkEl.classList.toggle("hidden", !url);
   clearChatbot();
   panel.classList.remove("hidden");
   if (dpadEl) dpadEl.classList.add("hidden");
+
+  setTimeout(() => panel.scrollIntoView({ behavior: "smooth", block: "start" }), 150);
 }
 
 export function hide() {
   panel.classList.add("hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }

@@ -31,15 +31,17 @@ function scroll(stageIndex, mode) {
     if (right - cx > w) inner.style.transform = `translateX(-${Math.min(right - w + 10, max)}px)`;
 
   } else if (mode === "fast") {
-    inner.style.transition = "transform 0.2s ease";
-    inner.style.transform  = "translateX(0)";
-    setTimeout(() => { inner.style.transition = ""; }, 220);
+    // .pipeline-fast overrides the default transition to 0.2s (defined in style.css)
+    inner.classList.add("pipeline-fast");
+    inner.style.transform = "translateX(0)";
+    setTimeout(() => { inner.classList.remove("pipeline-fast"); }, 220);
 
   } else { // "instant"
-    inner.style.transition = "none";
-    inner.style.transform  = "translateX(0)";
-    inner.getBoundingClientRect();
-    inner.style.transition = "";
+    // .pipeline-instant suppresses all transition (defined in style.css)
+    inner.classList.add("pipeline-instant");
+    inner.style.transform = "translateX(0)";
+    inner.getBoundingClientRect(); // force reflow so the class takes effect before removal
+    inner.classList.remove("pipeline-instant");
   }
 }
 

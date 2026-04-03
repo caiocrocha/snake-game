@@ -9,12 +9,14 @@ export const state = {
   theme:       { snake: "#39ff14", food: "#ff4444", accent: "#39ff14" },
 
   // ── Snake ──────────────────────────────────────────────────
-  snake: null,  // array of {x, y} grid cells
-  dx:    25,    // horizontal velocity (px per move)
-  dy:    0,     // vertical velocity
-  score: 0,
-  apple: null,  // {x, y}
-  tick:  0,     // frame counter between moves
+  snake:        null,   // array of {x, y} grid cells
+  dx:           25,     // horizontal velocity (px per move)
+  dy:           0,      // vertical velocity
+  score:        0,
+  apple:        null,   // {x, y}
+  waiting:      true,   // true until the player presses their first arrow key or 3 s elapses
+  waitStart:    0,      // performance.now() when the current waiting phase began
+  lastMoveTime: 0,      // performance.now() timestamp of the last game tick
 
   // ── Control flags ──────────────────────────────────────────
   gameOver:          false,

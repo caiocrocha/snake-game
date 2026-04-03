@@ -3,9 +3,11 @@
 import { state } from "../state.js";
 import { GITHUB_PREFIX } from "../config.js";
 
-const input   = document.getElementById("keyword-input");
-const btn     = document.getElementById("keyword-btn");
-const results = document.getElementById("keyword-results");
+const input      = document.getElementById("keyword-input");
+const btn        = document.getElementById("keyword-btn");
+const results    = document.getElementById("keyword-results");
+const noMatchMsg = document.getElementById("no-match-msg");
+const tpl        = document.getElementById("result-item-tpl");
 
 function projectUrl(p) {
   return (p.repo && GITHUB_PREFIX) ? GITHUB_PREFIX + p.repo : "";
@@ -22,7 +24,7 @@ function match(query) {
       terms.forEach(t => {
         if      (p.keywords.some(k => k.toLowerCase() === t))                                      hits += 4;
         else if (p.keywords.some(k => k.toLowerCase().includes(t) || t.includes(k.toLowerCase()))) hits += 2;
-        else if (hay.includes(t))                                                                   hits += 1;
+        else if (hay.includes(t))                                                                  hits += 1;
       });
       return { p, hits };
     })
@@ -32,51 +34,25 @@ function match(query) {
 }
 
 function render(projects) {
-  results.textContent = ""; // safe clear — no innerHTML
+  // Remove previously appended result cards (leaves #no-match-msg in place)
+  results.querySelectorAll(".result-item").forEach(el => el.remove());
 
-  if (!projects.length) {
-    const msg = document.createElement("p");
-    msg.className   = "no-match";
-    msg.textContent = 'No match — try "RAG", "NLP", "LLM", "ASR" or "bioinformatics".';
-    results.appendChild(msg);
-    return;
-  }
+  noMatchMsg.classList.toggle("hidden", projects.length > 0);
+  if (!projects.length) return;
 
   projects.forEach(p => {
-    const url = projectUrl(p);
+    const url  = projectUrl(p);
+    const item = tpl.content.cloneNode(true).firstElementChild;
 
-    const item = document.createElement("div");
-    item.className = "result-item";
+    item.querySelector(".result-tag").textContent  = p.tag;
+    item.querySelector(".result-name").textContent = p.displayName;
+    item.querySelector(".result-desc").textContent = p.description.slice(0, 120) + "…";
 
-    const header = document.createElement("div");
-    header.className = "result-item-header";
-
-    const tagEl = document.createElement("span");
-    tagEl.className   = "result-tag";
-    tagEl.textContent = p.tag;
-
-    const nameEl = document.createElement("span");
-    nameEl.className   = "result-name";
-    nameEl.textContent = p.displayName;
-
-    header.appendChild(tagEl);
-    header.appendChild(nameEl);
-
-    const desc = document.createElement("p");
-    desc.className   = "result-desc";
-    desc.textContent = p.description.slice(0, 120) + "…";
-
-    item.appendChild(header);
-    item.appendChild(desc);
-
+    const link = item.querySelector(".result-link");
     if (url) {
-      const link = document.createElement("a");
-      link.className = "result-link";
-      link.href      = url;
-      link.target    = "_blank";
-      link.rel       = "noopener noreferrer";
-      link.textContent = "View on GitHub →";
-      item.appendChild(link);
+      link.href = url;
+    } else {
+      link.remove();
     }
 
     results.appendChild(item);
@@ -89,8 +65,9 @@ function search() {
 }
 
 export function clear() {
-  input.value     = "";
-  results.textContent = "";
+  input.value = "";
+  results.querySelectorAll(".result-item").forEach(el => el.remove());
+  noMatchMsg.classList.add("hidden");
 }
 
 export function init() {
