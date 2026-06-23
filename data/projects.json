@@ -162,5 +162,34 @@
       "food": "#ff4444",
       "accent": "#40c4ff"
     }
+  },
+  {
+    "id": 6,
+    "name": "wildlife_rescue_assistant",
+    "displayName": "Wildlife Rescue Assistant",
+    "tag": "AGENT",
+    "description": "A ReAct agent for wildlife rescue centers that handles supplies, care logs, animals, and supplier orders in natural language. Built on LangGraph and Chainlit with an OpenRouter LLM, Notion as the database, and Mailtrap/GoCardless tools.",
+    "repo": "wildlife_rescue_assistant",
+    "keywords": [
+      "agent",
+      "react agent",
+      "langgraph",
+      "chainlit",
+      "tool calling",
+      "openrouter",
+      "llm",
+      "notion",
+      "mailtrap",
+      "gocardless",
+      "wildlife rescue",
+      "inventory",
+      "python",
+      "large language model"
+    ],
+    "theme": {
+      "snake": "#66bb6a",
+      "food": "#ff4444",
+      "accent": "#66bb6a"
+    }
   }
 ]

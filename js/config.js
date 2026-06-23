@@ -31,6 +31,7 @@ export { GITHUB_PREFIX } from "./env.js";
 
 // Project appearance weights on the game-over screen
 export const WEIGHTS = {
+  "wildlife_rescue_assistant":      6,
   "SkillsRadar":                    5,
   "arxhive_rag":                    4,
   "Brazilian_Portuguese_Quick_APT": 3,
